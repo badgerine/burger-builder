@@ -1,4 +1,6 @@
+# About
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project is called burger-builder. It creates a mobile-enabled web application to build a burger.
 
 ## Available Scripts
 
