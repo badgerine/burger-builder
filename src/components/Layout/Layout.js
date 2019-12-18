@@ -17,6 +17,12 @@ class Layout extends Component {
         this.setState({showSideDrawer: true});
     }
 
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
+            return {showSideDrawer: !prevState.showSideDrawer};
+        })
+    }//this method should replace sideDrawerClosedHandler and sideDrawerOpenedHandler.
+
     render() {
         return (
             <Auxilliary>
