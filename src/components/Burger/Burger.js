@@ -1,15 +1,15 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import classes from './Burger.module.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
+    console.log(props);
     let transformedIngredients = Object.keys(props.ingredients)
         .map(igKey => {
-            console.log('igKey:' + igKey);
-            console.log(props.ingredients);
+            // console.log('igKey:' + igKey);
+            // console.log(props.ingredients);
             return [...Array(props.ingredients[igKey])].map((_, i) => {
-                console.log(props.ingredients[igKey]);
-                console.log('map((_, i):' + i)
                 return <BurgerIngredient key={igKey + i} type={igKey} />
             })
         })
@@ -30,5 +30,5 @@ const burger = (props) => {
         </div>
     );
 }
-
-export default burger;
+//if you want access to routing props from a component that is not wrapped with Router, use withRouter
+export default withRouter(burger);
