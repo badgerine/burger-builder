@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Auxilliary from '../../../containers/Auxilliary/Auxilliary';
 import Button from '../../UI/Button/Button';
+import { NavLink } from 'react-router-dom';
 
 class OrderSummary extends Component {
     //this could be a functional component, we did this for lifecycle hook debugging
@@ -24,7 +25,7 @@ class OrderSummary extends Component {
                 <p><strong>Total Price:  {this.props.price.toFixed(2)}</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType='Danger' click={this.props.purchaseCancel}>CANCEL</Button>
-                <Button btnType='Success' click={this.props.purchaseContinue}>CONTINUE</Button>
+                <NavLink to="/checkout"> <Button btnType='Success' click={this.props.purchaseContinue}>CONTINUE</Button></NavLink>
             </Auxilliary>
         );
     }
