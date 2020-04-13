@@ -12,7 +12,7 @@ const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
     meat: 1.3,
-    bacon: 0.7
+    macon: 0.7
 };
 
 class BurgerBuilder extends Component {
@@ -115,10 +115,26 @@ class BurgerBuilder extends Component {
         //     .catch(error => {
         //         this.setState({ loading: false, purchasing: false });
         //     })
+
+        //my way
+        // this.props.history.push({
+        //     pathname: '/checkout',
+        //     search: '?ingredients='+JSON.stringify(this.state.ingredients)
+        // });
+
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            console.log(i);
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+
+        const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
-            search: '?ingredients='+JSON.stringify(this.state.ingredients)
+            search: '?' + queryString
         });
+
+
     }
 
     render() {

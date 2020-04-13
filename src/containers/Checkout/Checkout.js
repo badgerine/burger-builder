@@ -3,31 +3,40 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 
 class Checkout extends Component {
     state = {
-        ingredients: { salad: 0, meat: 0, cheese: 0, bacon: 0 }
+        ingredients: { salad: 0, meat: 0, cheese: 0, macon: 0 }
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         const query = new URLSearchParams(this.props.location.search);
-        let chosenIngredients = null;
+        //my way
+        // let chosenIngredients = null;
+        // for (let param of query.entries()) {
+        //     console.log(param);
+        //     if ('ingredients' === param[0]) {
+        //         chosenIngredients = JSON.parse(param[1]);
+        //         break;
+        //     }
+        // }
+        // this.setState({ ingredients: chosenIngredients });
 
-        for(let param of query.entries()){
-            console.log(param);
-            if('ingredients' === param[0]){
-                chosenIngredients = JSON.parse(param[1]);
-                this.setState({ingredients: chosenIngredients});
-                break;
-            }
+        let chosenIngredients = {};
+        for (let param of query.entries()) {
+            //implicitly casting ingredient amount to integer
+            //['salad','1']
+            chosenIngredients[param[0]] = +param[1];
         }
-        
-        
+
+        console.log('printing chosenIngredients after loop');
+        console.log(chosenIngredients);
+        this.setState({ ingredients: chosenIngredients });
     }
 
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
 
-    checkoutContinuedHandler= () => {
+    checkoutContinuedHandler = () => {
         this.props.history.replace('/checkout/contact-data');
     }
 
@@ -35,8 +44,8 @@ class Checkout extends Component {
         return (
             <div>
                 <CheckoutSummary
-                    checkoutCancelled = {this.checkoutCancelledHandler}
-                    checkoutContinued = {this.checkoutContinuedHandler}
+                    checkoutCancelled={this.checkoutCancelledHandler}
+                    checkoutContinued={this.checkoutContinuedHandler}
                     ingredients={this.state.ingredients} />
             </div>
         )
