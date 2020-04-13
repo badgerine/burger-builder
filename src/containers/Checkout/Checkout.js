@@ -5,10 +5,12 @@ import ContactData from '../Checkout/ContactData/ContactData';
 
 class Checkout extends Component {
     state = {
-        ingredients: { salad: 0, meat: 0, cheese: 0, macon: 0 }
+        ingredients: { salad: 0, meat: 0, cheese: 0, macon: 0 },
+        price: 0
     }
 
-    componentDidMount() {
+    //changed from componentDidMount so that we populate the ingredients so that the burger can render successfully in the CheckoutSummary component
+    componentWillMount() {
 
         const query = new URLSearchParams(this.props.location.search);
         //my way
@@ -23,15 +25,21 @@ class Checkout extends Component {
         // this.setState({ ingredients: chosenIngredients });
 
         let chosenIngredients = {};
+        let price = null;
         for (let param of query.entries()) {
-            //implicitly casting ingredient amount to integer
-            //['salad','1']
-            chosenIngredients[param[0]] = +param[1];
+            if (param[0] === 'price') {
+                price = param[1];
+            } else {
+                //implicitly casting ingredient amount to integer
+                //['salad','1']
+                chosenIngredients[param[0]] = +param[1];
+            }
         }
+
 
         console.log('printing chosenIngredients after loop');
         console.log(chosenIngredients);
-        this.setState({ ingredients: chosenIngredients });
+        this.setState({ ingredients: chosenIngredients, totalPrice: price });
     }
 
     checkoutCancelledHandler = () => {
@@ -49,9 +57,12 @@ class Checkout extends Component {
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler}
                     ingredients={this.state.ingredients} />
+                {/* <Route
+                    path={this.props.match.path + '/contact-data'}
+                    component={ContactData} /> */}
                 <Route
                     path={this.props.match.path + '/contact-data'}
-                    component={ContactData} />
+                    render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)} />
             </div>
         )
     }
