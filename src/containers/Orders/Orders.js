@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Order from '../../components/Order/Order';
-import 'Orders.css';
+import classes from './Orders.module.css';
 
 class Orders extends Component {
     render() {
@@ -13,4 +13,4 @@ class Orders extends Component {
     }
 }
 
-export default App;
+export default Orders;
