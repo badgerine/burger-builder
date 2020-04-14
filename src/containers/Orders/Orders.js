@@ -28,13 +28,16 @@ class Orders extends Component {
     }
 
     render() {
-        let orders = this.state.orders.map(order => {
-            return <p>{JSON.stringify(order)}</p>
-        });
         return (
             <div>
-                {orders}
+                {this.state.orders.map(order => (
+                    <Order
+                        key={order.id}
+                        price={order.price}
+                        ingredients={order.ingredients} />
+                ))}
             </div>
+
         );
     }
 }
