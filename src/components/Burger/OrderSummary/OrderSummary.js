@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Auxilliary from '../../../containers/Auxilliary/Auxilliary';
 import Button from '../../UI/Button/Button';
-import { NavLink } from 'react-router-dom';
 
 class OrderSummary extends Component {
     //this could be a functional component, we did this for lifecycle hook debugging
