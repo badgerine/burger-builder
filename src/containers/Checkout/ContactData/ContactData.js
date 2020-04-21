@@ -79,7 +79,7 @@ class ContactData extends Component {
                         { value: 'economy', displayValue: 'Economy' }
                     ]
                 },
-                value: ''
+                valid: true
             },
         },
         loading: false
@@ -115,15 +115,15 @@ class ContactData extends Component {
     checkValidity(value, rules) {
         let isValid = true;
 
-        if (rules && rules.required) {
+        if (rules.required) {
             isValid = isValid && value.trim() !== '';
         }
 
-        if(rules.minLength) {
+        if (rules.minLength) {
             isValid = isValid && value.length >= rules.minLength;
         }
 
-        if(rules.maxLength) {
+        if (rules.maxLength) {
             isValid = isValid && value.length <= rules.maxLength;
         }
 
@@ -138,7 +138,7 @@ class ContactData extends Component {
 
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        console.log('input valid: '+updatedFormElement.valid);
+        console.log('input valid: ' + updatedFormElement.valid);
         updatedOrderForm[key] = updatedFormElement;
         this.setState({ orderForm: updatedOrderForm });
     }
@@ -160,6 +160,8 @@ class ContactData extends Component {
                         inputtype={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
+                        invalid={!formElement.config.valid}
+                        shouldValidate={formElement.config.validation}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
                 <Button btnType="Success">ORDER</Button>
