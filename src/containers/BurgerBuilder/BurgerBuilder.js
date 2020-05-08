@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Auxilliary from '../Auxilliary/Auxilliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControlCollection from '../../components/Burger/BuildControlCollection/BuildControlCollection';
@@ -7,6 +8,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actionTypes from '../../store/actions';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -92,7 +94,7 @@ class BurgerBuilder extends Component {
 
     puchaseContinueHandler = () => {
         // alert('You continued');
-      
+
 
         //my way
         // this.props.history.push({
@@ -105,7 +107,7 @@ class BurgerBuilder extends Component {
             console.log(i);
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-        queryParams.push('price='+this.state.totalPrice);
+        queryParams.push('price=' + this.state.totalPrice);
         const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
@@ -163,4 +165,18 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddIngredient: (ingredient, itemPrice) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredient: ingredient, price: itemPrice}),
+        onRemoveIngredient: (ingredient, itemPrice) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredient: ingredient, price: itemPrice}),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
