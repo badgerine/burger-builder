@@ -142,7 +142,7 @@ class ContactData extends Component {
     inputChangedHandler = (event, key) => {
         console.log(event.target.value);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
-        const updatedOrderForm = { ... this.state.orderForm };
+        const updatedOrderForm = { ...this.state.orderForm };
         const updatedFormElement = { ...updatedOrderForm[key] };
 
         updatedFormElement.value = event.target.value;

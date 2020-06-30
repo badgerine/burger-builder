@@ -1,5 +1,5 @@
-import * as actionTypes from './actions';
-import * as ingredientPrices from '../constants/IngredientItems';
+import * as actionTypes from '../actions/actionTypes';
+import * as ingredientPrices from '../../constants/IngredientItems';
 
 const initialstate = {
     ingredients: {
