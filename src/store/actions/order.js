@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
+import thunk from 'redux-thunk';
 
 export const purchaseBurgerSuccess = (id, orderData) => {
     return {
@@ -16,8 +17,15 @@ export const purchaseBurgerFail = (error) => {
     }
 }
 
-export const purchaseBurgerStart = (orderData) => {
+export const purchasBurgerStart = () => {
+    return {
+        type: actionTypes.PURCHASE_BURGER_START
+    }
+}
+
+export const purchaseBurger = (orderData) => {
     return thunkDispatch => {
+        thunkDispatch(purchasBurgerStart);
         axios.post('orders.json/', orderData)
             .then(response => {
                 console.log('[store/reducer/orders.purchaseBurgerStart]',response);
