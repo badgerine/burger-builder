@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import Axios from 'axios';
+import axios from '../../axios-orders';
 
 export const purchaseBurgerSuccess = (id, orderData) => {
     return {
@@ -20,7 +20,7 @@ export const purchaseBurgerStart = (orderData) => {
     return thunkDispatch => {
         axios.post('orders.json/', orderData)
             .then(response => {
-                console.log(response);
+                console.log('[store/reducer/orders.purchaseBurgerStart]',response);
                 thunkDispatch(purchaseBurgerSuccess(response.data, orderData))
             })
             .catch(error => {

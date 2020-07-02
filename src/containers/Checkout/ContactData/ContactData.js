@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import classes from './ContactData.module.css';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
-import withErrorHandler from '../../../hoc/withErrorHandler';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index'
 
 class ContactData extends Component {
@@ -143,7 +143,7 @@ class ContactData extends Component {
         updatedOrderForm[key] = updatedFormElement;
 
         let formIsValid = true;
-        for(let keys in updatedOrderForm) {
+        for (let keys in updatedOrderForm) {
             formIsValid = formIsValid && updatedOrderForm[key].valid;
         }
         console.log(formIsValid);
@@ -196,6 +196,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurgerStart(orderData))
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurgerStart(orderData))
+    }
 }
-export default connect(mapStateToProps)(withErrorHandler(ContactData, axios));
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData, axios));
