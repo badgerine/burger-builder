@@ -29,7 +29,7 @@ export const purchaseBurger = (orderData) => {
         axios.post('orders.json/', orderData)
             .then(response => {
                 console.log('[store/reducer/orders.purchaseBurgerStart]',response);
-                thunkDispatch(purchaseBurgerSuccess(response.data, orderData))
+                thunkDispatch(purchaseBurgerSuccess(response.data.name, orderData))
             })
             .catch(error => {
                 thunkDispatch(purchaseBurgerFail(error))
