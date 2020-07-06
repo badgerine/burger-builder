@@ -8,7 +8,7 @@ const input = (props) => {
         inputClasses.push(classes.Invalid);
     }
 
-    switch (props.inputtype) {
+    switch (props.inputType) {
         case ('input'):
             inputElement = <input
                 className={inputClasses.join(' ')}

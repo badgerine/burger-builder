@@ -163,7 +163,7 @@ class ContactData extends Component {
                 {fromElementsArray.map(formElement => (
                     <Input
                         key={formElement.id}
-                        inputtype={formElement.config.elementType}
+                        inputType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
                         invalid={!formElement.config.valid}
