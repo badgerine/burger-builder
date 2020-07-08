@@ -3,7 +3,7 @@ import classes from './Auth.module.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import * as actions from '../../store/actions/index';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Auth extends Component {
     state = {
@@ -36,7 +36,8 @@ class Auth extends Component {
                 valid: false,
                 touched: false
             }
-        }
+        },
+        isSignUp: true
     }
 
     checkValidity(value, rules) {
@@ -54,7 +55,7 @@ class Auth extends Component {
             isValid = isValid && value.length <= rules.maxLength;
         }
 
-        if(rules.isEmail) {
+        if (rules.isEmail) {
             const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             isValid = isValid && pattern.test(value);
         }
@@ -66,7 +67,7 @@ class Auth extends Component {
         const eventValue = event.target.value;
         console.log(eventValue);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
-        const updatedControls = { 
+        const updatedControls = {
             ...this.state.controls,
             [key]: {
                 ...this.state.controls[key],
@@ -75,13 +76,19 @@ class Auth extends Component {
                 touched: true
             }
         };
-        
+
         this.setState({ controls: updatedControls });
     }
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp);
+    }
+
+    switchAuthModeHandler = () => {
+        this.setState(prevState => {
+            return { isSignUp: !prevState.isSignUp };
+        });
     }
 
 
@@ -105,21 +112,25 @@ class Auth extends Component {
                 touched={formElement.config.touched}
                 changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ));
-        
+
         return (
             <div className={classes.Auth}>
+                <p>{this.state.isSignUp ? 'SIGNUP' : 'SIGNIN'}</p>
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">SUBMIT</Button>
                 </form>
+                <Button btnType='Danger' click={this.switchAuthModeHandler}>
+                    SWITCH TO {this.state.isSignUp ? 'SIGNIN' : 'SIGNUP'}
+                </Button>
             </div>
         );
     }
 }
 
 const mapDispatchToProps = dispatch => {
-    return { 
-        onAuth: (email,password) => dispatch(actions.auth(email,password))
+    return {
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
     }
 }
 
