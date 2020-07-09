@@ -22,6 +22,20 @@ export const authFail = (error) => {
     };
 }
 
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+}
+
+export const checkAuthTimeout = expirationTime => {
+    return thunkDispatch => {
+        setTimeout(() => {
+            thunkDispatch(logout());
+        }, expirationTime);
+    };
+}
+
 export const auth = (email, password, isSignUp) => {
     return thunkDispatch => {
         thunkDispatch(authStart());
@@ -30,16 +44,17 @@ export const auth = (email, password, isSignUp) => {
             password: password,
             returnSecureToken: true
         };
-        console.log('[auth.auth()] signUp=',isSignUp);
+        console.log('[auth.auth()] signUp=', isSignUp);
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxnnN6zCLt0sub4-A1e3PhHFJ1kpg_54g';
-        if(!isSignUp) {
+        if (!isSignUp) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAxnnN6zCLt0sub4-A1e3PhHFJ1kpg_54g';
         }
-        
+
         axios.post(url, authData)
             .then(response => {
                 console.log(response);
                 thunkDispatch(authSuccess(response.data.idToken, response.data.localId));
+                thunkDispatch(checkAuthTimeout(response.data.expiresIn * 1000));
             })
             .catch(error => {
                 console.log(error);
