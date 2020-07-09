@@ -38,7 +38,7 @@ class Auth extends Component {
                 touched: false
             }
         },
-        isSignUp: true
+        isSignUp: false
     }
 
     checkValidity(value, rules) {
@@ -125,11 +125,10 @@ class Auth extends Component {
 
         return (
             <div className={classes.Auth}>
-                <p>{this.state.isSignUp ? 'SIGNUP' : 'SIGNIN'}</p>
                 <form onSubmit={this.submitHandler}>
                     {form}
                     {errorMessage}
-                    <Button btnType="Success">SUBMIT</Button>
+                    <Button btnType="Success">{this.state.isSignUp ? 'SIGNUP' : 'SIGNIN'}</Button>
                 </form>
                 <Button btnType='Danger' click={this.switchAuthModeHandler}>
                     SWITCH TO {this.state.isSignUp ? 'SIGNIN' : 'SIGNUP'}

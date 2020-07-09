@@ -7,7 +7,7 @@ import Auxilliary from '../../../containers/Auxilliary/Auxilliary'
 
 const sideDrawer = (props) => {
     let attachedClasses = [classes.SideDrawer, classes.Close];
-    if(props.open){
+    if (props.open) {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
     return (
@@ -18,7 +18,7 @@ const sideDrawer = (props) => {
                     <Logo />
                 </div>
                 <nav>
-                    <NavigationItemCollection />
+                    <NavigationItemCollection isAuthenticated={props.isAuthenticated} />
                 </nav>
             </div>
         </Auxilliary>
