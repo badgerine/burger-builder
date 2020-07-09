@@ -43,7 +43,7 @@ export const auth = (email, password, isSignUp) => {
             })
             .catch(error => {
                 console.log(error);
-                thunkDispatch(authFail());
+                thunkDispatch(authFail(error.response.data.error));
             });
     }
 }
