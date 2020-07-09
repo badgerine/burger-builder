@@ -23,10 +23,10 @@ export const purchasBurgerStart = () => {
     }
 }
 
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = (orderData, token) => {
     return thunkDispatch => {
         thunkDispatch(purchasBurgerStart);
-        axios.post('orders.json/', orderData)
+        axios.post('orders.json?auth='+token, orderData)
             .then(response => {
                 console.log('[store/reducer/orders.purchaseBurgerStart]', response);
                 thunkDispatch(purchaseBurgerSuccess(response.data.name, orderData))
@@ -63,11 +63,11 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
     console.log('fetching orders...');
     return thunkDispatch => {
         thunkDispatch(fetchOrdersStart());
-        axios.get('/orders.json')
+        axios.get('/orders.json?auth='+token)
             .then(res => {
                 const fetchedOrders = [];
                 for (let key in res.data) {
