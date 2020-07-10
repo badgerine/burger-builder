@@ -7,7 +7,7 @@ const navigationItemCollection = (props) => (
       <NavigationItem exact link='/'>Burger Builder</NavigationItem>
       <NavigationItem link='/orders'>Orders</NavigationItem>
       {props.isAuthenticated
-         ? <NavigationItem link='/auth'>Logout</NavigationItem>
+         ? <NavigationItem link='/logout'>Logout</NavigationItem>
          : <NavigationItem link='/auth'>Login</NavigationItem>}
    </ul>
 );
