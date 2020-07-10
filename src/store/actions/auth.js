@@ -23,6 +23,9 @@ export const authFail = (error) => {
 }
 
 export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiryDate');
+    localStorage.removeItem('userId');
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -52,13 +55,42 @@ export const auth = (email, password, isSignUp) => {
 
         axios.post(url, authData)
             .then(response => {
-                console.log(response);
+                console.log('[auth.auth()] after post...', response);
+                const expiryDurationMS = response.data.expiresIn * 1000;
+                localStorage.setItem('token', response.data.idToken);
+                localStorage.setItem('expiryDate', calculateExpiryDate(expiryDurationMS));
+                localStorage.setItem('userId', response.data.localId);
                 thunkDispatch(authSuccess(response.data.idToken, response.data.localId));
-                thunkDispatch(checkAuthTimeout(response.data.expiresIn * 1000));
+                thunkDispatch(checkAuthTimeout(expiryDurationMS));
             })
             .catch(error => {
                 console.log(error);
                 thunkDispatch(authFail(error.response.data.error));
             });
     }
+}
+
+export const authCheckState = () => {
+    return thunkDispatch => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            thunkDispatch(logout());
+        } else {
+            const expiryDate = new Date(localStorage.getItem('expiryDate'));
+            if (expiryDate > new Date()) {
+                const userId = localStorage.getItem('userId');
+                thunkDispatch(authSuccess(token, userId));
+                thunkDispatch(checkAuthTimeout(expiryDate.getMilliseconds - new Date().getMilliseconds));
+            } else {
+                thunkDispatch(logout());
+            }
+
+        }
+    }
+}
+
+const calculateExpiryDate = (expiryTime) => {
+    const expiryDate = new Date(new Date().getTime() + expiryTime);
+    console.log('[auth.calculateExpiryDate]expiryDate=', expiryDate);
+    return expiryDate;
 }
