@@ -24,7 +24,7 @@ class OrderSummary extends Component {
                 <p><strong>Total Price:  {this.props.price.toFixed(2)}</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType='Danger' click={this.props.purchaseCancel}>CANCEL</Button>
-                <Button btnType='Success' click={this.props.purchaseContinue}>CONTINUE</Button>
+                <Button btnType='Success' click={this.props.purchaseContinue}>{this.props.isAuth ? "CONTINUE" : "SIGN IN TO CONTINUE"}</Button>
             </Auxilliary>
         );
     }

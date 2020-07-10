@@ -5,7 +5,7 @@ import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class Auth extends Component {
     state = {
@@ -115,18 +115,21 @@ class Auth extends Component {
                 changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ));
 
-        if(this.props.loading) {
-            form = <Spinner/>
+        if (this.props.loading) {
+            form = <Spinner />
         }
 
         let errorMessage = null;
-        if(this.props.error) {
+        if (this.props.error) {
             errorMessage = (<p>{this.props.error.message}</p>);
         }
 
+        //implemented simpler/more suitable solution instead of 'S18#336 redirecting the user to the checkout page'
         let authRedirect = null;
-        if(this.props.isAuthenticated){
-            authRedirect = <Redirect to="/"/>
+        if (this.props.isAuthenticated && this.props.building) {
+            authRedirect = <Redirect to="/checkout" />
+        } else if(this.props.isAuthenticated) {
+            authRedirect = <Redirect to="/" />
         }
 
         return (
@@ -149,7 +152,8 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        isAuthenticated: state.auth.token
+        isAuthenticated: state.auth.token,
+        building: state.burgerBuilder.building
     }
 }
 

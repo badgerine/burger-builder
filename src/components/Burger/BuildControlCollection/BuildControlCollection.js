@@ -17,16 +17,15 @@ const buildControlCollection = (props) => (
             ctrl => <BuildControl
                 key={ctrl.label}
                 label={ctrl.label}
-                add={() => props.addIngredient(ctrl.type)}
+                add={() => props.addIngredient(ctrl.type)} 
                 remove={() => props.removeIngredient(ctrl.type)}
-                disabled={props.disabled[ctrl.type]}
-            />
+                disabled = {props.disabled[ctrl.type]}
+                />
         )}
-        <button
-            disabled={!(props.purchasable)}
-            className={classes.OrderButton}
-            onClick={props.ordered}
-        >{props.isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER'}</button>
+        <button 
+        disabled={!(props.purchasable)} 
+        className={classes.OrderButton} 
+        onClick={props.ordered}>ORDER NOW</button>
     </div>
 )
 

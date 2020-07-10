@@ -9,6 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
+import { Redirect } from 'react-router-dom';
 
 class BurgerBuilder extends Component {
 
@@ -29,15 +30,11 @@ class BurgerBuilder extends Component {
             .reduce((sum, el) => {
                 return sum + el;
             }, 0);
-            return sum > 0;
+        return sum > 0;
     }
 
     purchaseHandler = () => {
-        if(this.props.isAuthenticated) {
-            this.setState({ purchasing: true });
-        } else {
-            this.props.history.push('/auth')
-        }
+        this.setState({ purchasing: true });
     }
 
     purchaseCancelHandler = () => {
@@ -45,8 +42,12 @@ class BurgerBuilder extends Component {
     }
 
     puchaseContinueHandler = () => {
-        this.props.onInitPurchase();
-        this.props.history.push('/checkout');
+        if (this.props.isAuthenticated) {
+            this.props.onInitPurchase();
+            this.props.history.push('/checkout');
+        } else {
+            this.props.history.push('/auth');
+        }
     }
 
     render() {
@@ -71,15 +72,15 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         price={this.props.price}
                         purchasable={this.checkPurchaseState(this.props.ingredients)}
-                        ordered={this.purchaseHandler} 
-                        isAuth={this.props.isAuthenticated}/>
+                        ordered={this.purchaseHandler} />
                 </Auxilliary>
             );
             orderSummary = (<OrderSummary
                 ingredients={this.props.ingredients}
                 purchaseCancel={this.purchaseCancelHandler}
                 purchaseContinue={this.puchaseContinueHandler}
-                price={this.props.price} />);
+                price={this.props.price}
+                isAuth={this.props.isAuthenticated} />);
 
         }
 
