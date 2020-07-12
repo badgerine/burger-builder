@@ -80,7 +80,7 @@ export const authCheckState = () => {
             if (expiryDate > new Date()) {
                 const userId = localStorage.getItem('userId');
                 thunkDispatch(authSuccess(token, userId));
-                thunkDispatch(checkAuthTimeout(expiryDate.getMilliseconds - new Date().getMilliseconds));
+                thunkDispatch(checkAuthTimeout(expiryDate.getTime() - new Date().getTime()));
             } else {
                 thunkDispatch(logout());
             }
