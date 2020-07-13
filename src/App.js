@@ -20,7 +20,7 @@ class App extends Component {
       <Switch>
         <Route path="/auth" component={Auth} />
         <Route path="/" component={BurgerBuilder} />
-        {/* <Redirect to="/" /> ###redirnced any other route */}
+        {/* <Redirect to="/" /> ###redirect any other route */}
       </Switch>
     );
 
@@ -31,7 +31,7 @@ class App extends Component {
           <Route path="/orders" component={Orders} />
           <Route path="/logout" component={Logout} />
           <Route path="/" component={BurgerBuilder} />
-           {/* <Redirect to="/" /> ###redirnced any other route */}
+           {/* <Redirect to="/" /> ###redirect any other route */}
         </Switch>
       );
     }

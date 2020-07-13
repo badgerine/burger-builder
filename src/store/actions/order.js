@@ -26,7 +26,7 @@ export const purchasBurgerStart = () => {
 export const purchaseBurger = (orderData, token) => {
     return thunkDispatch => {
         thunkDispatch(purchasBurgerStart);
-        axios.post('orders.json?auth='+token, orderData)
+        axios.post('orders.json?auth=' + token, orderData)
             .then(response => {
                 console.log('[store/reducer/orders.purchaseBurgerStart]', response);
                 thunkDispatch(purchaseBurgerSuccess(response.data.name, orderData))
@@ -63,11 +63,12 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
     console.log('fetching orders...');
     return thunkDispatch => {
         thunkDispatch(fetchOrdersStart());
-        axios.get('/orders.json?auth='+token)
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId+'"';
+        axios.get('/orders.json' + queryParams)
             .then(res => {
                 const fetchedOrders = [];
                 for (let key in res.data) {
