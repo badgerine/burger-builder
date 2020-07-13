@@ -6,7 +6,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { updateObject, validateEmail } from '../../utility/utility'
+import { updateObject, checkValidity } from '../../utility/utility'
 
 class Auth extends Component {
     state = {
@@ -43,34 +43,12 @@ class Auth extends Component {
         isSignUp: false
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = isValid && value.trim() !== '';
-        }
-
-        if (rules.minLength) {
-            isValid = isValid && value.length >= rules.minLength;
-        }
-
-        if (rules.maxLength) {
-            isValid = isValid && value.length <= rules.maxLength;
-        }
-
-        if (rules.isEmail) {
-            isValid = isValid && validateEmail(value);
-        }
-
-        return isValid;
-    }
-
     inputChangedHandler = (event, key) => {
         const eventValue = event.target.value;
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
         const updatedControl = updateObject(this.state.controls[key], {
             value: eventValue,
-            valid: this.checkValidity(eventValue, this.state.controls[key].validation),
+            valid: checkValidity(eventValue, this.state.controls[key].validation),
             touched: true
         });
 

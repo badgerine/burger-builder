@@ -7,7 +7,7 @@ import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index'
-import { updateObject, validateEmail } from '../../../utility/utility';
+import { updateObject, checkValidity } from '../../../utility/utility';
 
 class ContactData extends Component {
     state = {
@@ -47,6 +47,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isNumeric: true,
                     minLength: 5,
                     maxLength: 5
                 },
@@ -115,34 +116,12 @@ class ContactData extends Component {
 
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = isValid && value.trim() !== '';
-        }
-
-        if (rules.minLength) {
-            isValid = isValid && value.length >= rules.minLength;
-        }
-
-        if (rules.maxLength) {
-            isValid = isValid && value.length <= rules.maxLength;
-        }
-
-        if(rules.isEmail) {
-            isValid = isValid && validateEmail(value);
-        }
-
-        return isValid;
-    }
-
     inputChangedHandler = (event, orderFormElementId) => {
         console.log(event.target.value);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
         const updatedFormElement = updateObject(this.state.orderForm[orderFormElementId], {
             value: event.target.value,
-            valid: this.checkValidity(event.target.value, this.state.orderForm[orderFormElementId].validation),
+            valid: checkValidity(event.target.value, this.state.orderForm[orderFormElementId].validation),
             touched: true
         });
         const updatedOrderForm = updateObject(this.state.orderForm, {
