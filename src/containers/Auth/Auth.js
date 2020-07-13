@@ -6,6 +6,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { updateObject, validateEmail } from '../../utility/utility'
 
 class Auth extends Component {
     state = {
@@ -58,8 +59,7 @@ class Auth extends Component {
         }
 
         if (rules.isEmail) {
-            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            isValid = isValid && pattern.test(value);
+            isValid = isValid && validateEmail(value);
         }
 
         return isValid;
@@ -67,17 +67,16 @@ class Auth extends Component {
 
     inputChangedHandler = (event, key) => {
         const eventValue = event.target.value;
-        console.log(eventValue);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
-        const updatedControls = {
-            ...this.state.controls,
-            [key]: {
-                ...this.state.controls[key],
-                value: eventValue,
-                valid: this.checkValidity(eventValue, this.state.controls[key].validation),
-                touched: true
-            }
-        };
+        const updatedControl = updateObject(this.state.controls[key], {
+            value: eventValue,
+            valid: this.checkValidity(eventValue, this.state.controls[key].validation),
+            touched: true
+        });
+
+        const updatedControls = updateObject(this.state.controls, {
+            [key]: updatedControl
+        });
 
         this.setState({ controls: updatedControls });
     }
@@ -128,7 +127,7 @@ class Auth extends Component {
         let authRedirect = null;
         if (this.props.isAuthenticated && this.props.building) {
             authRedirect = <Redirect to="/checkout" />
-        } else if(this.props.isAuthenticated) {
+        } else if (this.props.isAuthenticated) {
             authRedirect = <Redirect to="/" />
         }
 

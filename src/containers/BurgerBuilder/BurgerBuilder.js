@@ -9,7 +9,6 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
-import { Redirect } from 'react-router-dom';
 
 class BurgerBuilder extends Component {
 
@@ -18,7 +17,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.ingredients && !this.props.buildingBurger) {
+        if (!this.props.ingredients || !this.props.buildingBurger || this.props.burgerPurchased) {
             this.props.onInitIngredients();
         }
     }

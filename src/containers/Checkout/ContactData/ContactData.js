@@ -7,6 +7,7 @@ import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index'
+import { updateObject, validateEmail } from '../../../utility/utility';
 
 class ContactData extends Component {
     state = {
@@ -74,7 +75,8 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 5
+                    minLength: 5,
+                    isEmail: true
                 },
                 valid: false,
                 touched: false
@@ -128,23 +130,28 @@ class ContactData extends Component {
             isValid = isValid && value.length <= rules.maxLength;
         }
 
+        if(rules.isEmail) {
+            isValid = isValid && validateEmail(value);
+        }
+
         return isValid;
     }
 
-    inputChangedHandler = (event, key) => {
+    inputChangedHandler = (event, orderFormElementId) => {
         console.log(event.target.value);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
-        const updatedOrderForm = { ...this.state.orderForm };
-        const updatedFormElement = { ...updatedOrderForm[key] };
-
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        updatedFormElement.touched = true;
-        updatedOrderForm[key] = updatedFormElement;
+        const updatedFormElement = updateObject(this.state.orderForm[orderFormElementId], {
+            value: event.target.value,
+            valid: this.checkValidity(event.target.value, this.state.orderForm[orderFormElementId].validation),
+            touched: true
+        });
+        const updatedOrderForm = updateObject(this.state.orderForm, {
+            [orderFormElementId]: updatedFormElement
+        });
 
         let formIsValid = true;
         for (let keys in updatedOrderForm) {
-            formIsValid = formIsValid && updatedOrderForm[key].valid;
+            formIsValid = formIsValid && updatedFormElement.valid;
         }
         console.log(formIsValid);
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
@@ -203,4 +210,4 @@ const mapDispatchToProps = dispatch => {
         onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
