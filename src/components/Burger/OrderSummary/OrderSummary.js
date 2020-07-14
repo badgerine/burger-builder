@@ -4,9 +4,6 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     //this could be a functional component, we did this for lifecycle hook debugging
-    componentDidUpdate() {
-        console.log('[OrderSummary] componentDidUpdate().')
-    }
 
     render() {
         const ingredientSummary = Object.keys(this.props.ingredients)

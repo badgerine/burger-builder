@@ -117,7 +117,6 @@ class ContactData extends Component {
     }
 
     inputChangedHandler = (event, orderFormElementId) => {
-        console.log(event.target.value);
         //dont just shallow-clone the elements of orderForm, but deep-clone (ie clone the children too)
         const updatedFormElement = updateObject(this.state.orderForm[orderFormElementId], {
             value: event.target.value,
@@ -130,9 +129,8 @@ class ContactData extends Component {
 
         let formIsValid = true;
         for (let keys in updatedOrderForm) {
-            formIsValid = formIsValid && updatedFormElement.valid;
+            formIsValid = formIsValid && updatedOrderForm[keys].valid;
         }
-        console.log(formIsValid);
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
     }
 

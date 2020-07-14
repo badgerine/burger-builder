@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
-import thunk from 'redux-thunk';
 
 export const purchaseBurgerSuccess = (id, orderData) => {
     return {
@@ -28,7 +27,6 @@ export const purchaseBurger = (orderData, token) => {
         thunkDispatch(purchasBurgerStart);
         axios.post('orders.json?auth=' + token, orderData)
             .then(response => {
-                console.log('[store/reducer/orders.purchaseBurgerStart]', response);
                 thunkDispatch(purchaseBurgerSuccess(response.data.name, orderData))
             })
             .catch(error => {
@@ -64,7 +62,6 @@ export const fetchOrdersStart = () => {
 }
 
 export const fetchOrders = (token, userId) => {
-    console.log('fetching orders...');
     return thunkDispatch => {
         thunkDispatch(fetchOrdersStart());
         const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId+'"';
@@ -77,7 +74,6 @@ export const fetchOrders = (token, userId) => {
                         id: key
                     });
                 }
-                console.log('orders fetched successfully.')
                 thunkDispatch(fetchOrdersSuccess(fetchedOrders));
             }).catch(err => {
                 thunkDispatch(fetchOrdersFail(err));

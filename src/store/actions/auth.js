@@ -47,7 +47,6 @@ export const auth = (email, password, isSignUp) => {
             password: password,
             returnSecureToken: true
         };
-        console.log('[auth.auth()] signUp=', isSignUp);
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxnnN6zCLt0sub4-A1e3PhHFJ1kpg_54g';
         if (!isSignUp) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAxnnN6zCLt0sub4-A1e3PhHFJ1kpg_54g';
@@ -55,7 +54,6 @@ export const auth = (email, password, isSignUp) => {
 
         axios.post(url, authData)
             .then(response => {
-                console.log('[auth.auth()] after post...', response);
                 const expiryDurationMS = response.data.expiresIn * 1000;
                 localStorage.setItem('token', response.data.idToken);
                 localStorage.setItem('expiryDate', calculateExpiryDate(expiryDurationMS));
@@ -64,7 +62,6 @@ export const auth = (email, password, isSignUp) => {
                 thunkDispatch(checkAuthTimeout(expiryDurationMS));
             })
             .catch(error => {
-                console.log(error);
                 thunkDispatch(authFail(error.response.data.error));
             });
     }
@@ -91,6 +88,5 @@ export const authCheckState = () => {
 
 const calculateExpiryDate = (expiryTime) => {
     const expiryDate = new Date(new Date().getTime() + expiryTime);
-    console.log('[auth.calculateExpiryDate]expiryDate=', expiryDate);
     return expiryDate;
 }
