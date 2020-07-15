@@ -8,8 +8,19 @@ import NavigationItem from '../NavigationItem/NavigationItem';
 configure({ adapter: new Adapter() });
 
 describe('<NavigationItemCollection />', () => {
+    let wrapper;
+    beforeEach(() => {
+        wrapper = shallow(<NavigationItemCollection />);
+    });
+
+
     it('should render two <NavigationItem/> elements if not authenticated', () => {
-        const wrapper = shallow(<NavigationItemCollection />);
         expect(wrapper.find(NavigationItem)).toHaveLength(2);
+    });
+
+    it('should render three <NavigationItem/> elements if authenticated', () => {
+        // wrapper = shallow(<NavigationItemCollection isAuthenticated />);
+        wrapper.setProps({isAuthenticated: true});
+        expect(wrapper.find(NavigationItem)).toHaveLength(3);
     });
 });
