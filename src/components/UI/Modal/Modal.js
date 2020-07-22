@@ -1,7 +1,7 @@
-import React, { Component, useEffect } from 'react';
-import classes from './Modal.module.css';
+import React from 'react';
 import Auxilliary from '../../../containers/Auxilliary/Auxilliary';
 import Backdrop from '../Backdrop/Backdrop';
+import classes from './Modal.module.css';
 
 const Modal = (props) => {
 

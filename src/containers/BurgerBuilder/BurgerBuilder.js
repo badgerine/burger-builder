@@ -13,12 +13,12 @@ import axios from '../../axios-orders';
 export const BurgerBuilder = (props) => {
 
     const [purchasing, setPurchasing] = useState(false);
-
+    const {ingredients, buildingBurger, burgerPurchased, onInitIngredients} = props;
     useEffect(() => {
-        if (!props.ingredients || !props.buildingBurger || props.burgerPurchased) {
-            props.onInitIngredients();
+        if (!ingredients || !buildingBurger || burgerPurchased) {
+            onInitIngredients();
         }
-    }, [props.initIngredients, props.buildingBurger, props.burgerPurchased]);
+    }, [ingredients, buildingBurger, burgerPurchased, onInitIngredients]);
 
     const checkPurchaseState = (ingredients) => {
         // const ingredients = {...props.ingredients};
