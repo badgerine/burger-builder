@@ -5,9 +5,6 @@ import Backdrop from '../Backdrop/Backdrop';
 
 const Modal = (props) => {
 
-    useEffect(() => {
-    }, [props.show, props.children]);
-
     return (
         <Auxilliary>
             <Backdrop show={props.show} clicked={props.modalClosed} />
@@ -23,4 +20,8 @@ const Modal = (props) => {
     );
 }
 
-export default Modal;
+export default React.memo(Modal, 
+    (prevProps, nextProps) => {
+        nextProps.show === prevProps.show &&
+        nextProps.children === prevProps.children
+    });
