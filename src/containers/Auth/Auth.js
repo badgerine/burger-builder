@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import classes from './Auth.module.css';
-import Input from '../../components/UI/Input/Input';
-import Button from '../../components/UI/Button/Button';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { updateObject, checkValidity } from '../../utility/utility'
+import Button from '../../components/UI/Button/Button';
+import Input from '../../components/UI/Input/Input';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import * as actions from '../../store/actions/index';
+import { checkValidity, updateObject } from '../../utility/utility';
+import classes from './Auth.module.css';
 
 const Auth = props => {
     const [controls, setControls] = useState({
