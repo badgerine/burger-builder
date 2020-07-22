@@ -18,7 +18,7 @@ export const BurgerBuilder = (props) => {
         if (!props.ingredients || !props.buildingBurger || props.burgerPurchased) {
             props.onInitIngredients();
         }
-    }, []);
+    }, [props.initIngredients, props.buildingBurger, props.burgerPurchased]);
 
     const checkPurchaseState = (ingredients) => {
         // const ingredients = {...props.ingredients};

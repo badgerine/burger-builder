@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import classes from './ContactData.module.css';
-import Button from '../../../components/UI/Button/Button';
-import Spinner from '../../../components/UI/Spinner/Spinner';
 import axios from '../../../axios-orders';
+import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
+import Spinner from '../../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from '../../../store/actions/index'
-import { updateObject, checkValidity } from '../../../utility/utility';
+import * as actions from '../../../store/actions/index';
+import { checkValidity, updateObject } from '../../../utility/utility';
+import classes from './ContactData.module.css';
 
 const ContactData = props => {
     const initialOrderFormState = {
