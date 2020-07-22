@@ -1,43 +1,37 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Auxilliary from '../Auxilliary/Auxilliary';
 import classes from './Layout.module.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
-class Layout extends Component {
-    state = {
-        showSideDrawer: false
+const Layout = props => {
+    const [showSideDrawer, setShowSideDrawer] = useState(false);
+
+    const sideDrawerClosedHandler = () => {
+        setShowSideDrawer(false);
     }
 
-    sideDrawerClosedHandler = () => {
-        this.setState({ showSideDrawer: false });
+    const sideDrawerOpenedHandler = () => {
+        setShowSideDrawer(true);
     }
 
-    sideDrawerOpenedHandler = () => {
-        this.setState({showSideDrawer: true});
-    }
-
-    sideDrawerToggleHandler = () => {
-        this.setState((prevState) => {
-            return {showSideDrawer: !prevState.showSideDrawer};
-        })
+    const sideDrawerToggleHandler = () => {
+        setShowSideDrawer(!showSideDrawer);
     }//this method should replace sideDrawerClosedHandler and sideDrawerOpenedHandler.
 
-    render() {
-        return (
-            <Auxilliary>
-                <Toolbar openDrawer={this.sideDrawerOpenedHandler} isAuthenticated={this.props.token}/>
-                <SideDrawer
-                    open={this.state.showSideDrawer}
-                    closeDrawer={this.sideDrawerClosedHandler} 
-                    isAuthenticated={this.props.token} />
-                <main className={classes.Content}>
-                    {this.props.children}
-                </main>
-            </Auxilliary>
-        );
-    }
+    return (
+        <Auxilliary>
+            <Toolbar openDrawer={sideDrawerOpenedHandler} isAuthenticated={props.token} />
+            <SideDrawer
+                open={showSideDrawer}
+                closeDrawer={sideDrawerClosedHandler}
+                isAuthenticated={props.token} />
+            <main className={classes.Content}>
+                {props.children}
+            </main>
+        </Auxilliary>
+    );
 }
 
 const mapStateToProps = state => {
