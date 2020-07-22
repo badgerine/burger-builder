@@ -27,12 +27,6 @@ export const BurgerBuilder = (props) => {
     const onInitIngredients = useCallback(() => dispatch(actions.initIngredients()), [dispatch]);
     const onInitPurchase = () => dispatch(actions.purchaseInit());
 
-    // useEffect(() => {
-    //     //     if (!buildingBurger || burgerPurchased) {
-    //     onInitIngredients();
-    //     // }
-    // }, [buildingBurger, burgerPurchased, onInitIngredients]);
-
     useEffect(() => {
         if (!buildingBurger || burgerPurchased) {
             onInitIngredients();
